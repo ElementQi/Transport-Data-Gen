@@ -43,6 +43,12 @@ class Pre(object):
         if '$$' in context:  # Filter out placeholder patterns
             return False
         return True
+    
+    def _clean_question(self, question):
+        """ Clean up the question by stripping spaces and removing redundant spaces """
+        # Strip leading/trailing spaces
+        question = question.strip().replace(" ","")
+        return question
 
     def _data(self, mode):
         f = open(self.cf.dataPath + '/' + mode + '.txt', encoding='utf-8')
@@ -52,7 +58,11 @@ class Pre(object):
             data = line.strip().split('\t')
             data = json.loads(data[0])
             question = data['question']
-            if question is None or question != question:
+            
+            # Clean the question to remove extra spaces
+            if question is not None and question == question:  # Check for None or NaN
+                question = self._clean_question(question)
+            else:
                 continue
 
             for item in data['answer']:
