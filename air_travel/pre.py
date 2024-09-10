@@ -90,22 +90,24 @@ class Pre(object):
         for mode in self.data_modes:
             self._data(mode)
         
-        # Write the combined or uncombined dataset to the output file
+        # Convert the result to a list of dictionaries for JSON output
+        result = []
+        if self.combine:
+            for question, context in self.air_travel.items():
+                result.append({"question": question, "context": context})
+        else:
+            for question, context in self.air_travel:
+                result.append({"question": question, "context": context})
+        
+        # Write the list of dictionaries to a JSON file
         with open(self.output_file, 'w', encoding='utf-8') as myF:
-            if self.combine:
-                for question, context in self.air_travel.items():
-                    re = {'question': question, 'context': context}
-                    myF.write(json.dumps(re, ensure_ascii=False) + '\n')
-            else:
-                for question, context in self.air_travel:
-                    re = {'question': question, 'context': context}
-                    myF.write(json.dumps(re, ensure_ascii=False) + '\n')
+            json.dump(result, myF, ensure_ascii=False, indent=2)
 
 
 if __name__ == '__main__':
     # Set up argparse to allow command line inputs
     parser = argparse.ArgumentParser(description="Process datasets and combine them.")
-    parser.add_argument('--output_file', type=str, default='mine/air_travel.txt', help='The name of the output file.')
+    parser.add_argument('--output_file', type=str, default='mine/air_travel.json', help='The name of the output file.')
     parser.add_argument('--data_modes', nargs='+', default=['train', 'valid'], help='List of dataset modes to process (e.g., train valid).')
     parser.add_argument('--combine', action='store_true', help='Flag to combine contexts for the same question.')
 
