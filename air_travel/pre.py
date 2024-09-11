@@ -91,13 +91,14 @@ class Pre(object):
             self._data(mode)
         
         # Convert the result to a list of dictionaries for JSON output
+        # alpaca format
         result = []
         if self.combine:
             for question, context in self.air_travel.items():
-                result.append({"question": question, "context": context})
+                result.append({"instruction": question, "output": context})
         else:
             for question, context in self.air_travel:
-                result.append({"question": question, "context": context})
+                result.append({"instruction": question, "output": context})
         
         # Write the list of dictionaries to a JSON file
         with open(self.output_file, 'w', encoding='utf-8') as myF:
