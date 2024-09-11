@@ -2,6 +2,10 @@
 Collect, filter, and generate data from open-source transportation dataset
 
 
+## change log
+
+[2024/9/11] support data augmentation on air travel dataset
+
 ## Air travel
 
 
@@ -17,10 +21,14 @@ Refer to the data processing [code](https://aistudio.baidu.com/projectdetail/438
 
 ### how to use
 
-in `air_travel` folder, run code listed in `gen_air_travel.sh`.
+In `air_travel` folder, run code listed in `gen_air_travel.sh` to generate data from scratch.
+
+If you have generated `air_travel_combined.json` file already, you can try to generate augmented dataset. Just run code listed in `gen_augmented_air.sh`.
 
 
 ### issues
+
+#### raw dataset
 
 - same content
 
@@ -71,6 +79,20 @@ e.g.
 {"question": "我 要 值机", "context": "登机牌可在机场办理，也可通过自助设备、南航网站等方式办理；如需托运行李必须在机场柜台截止办理时间前抵达人工办理柜台，各地规定不同，请咨询始发当地机场。持纸质客票的旅客请到机场柜台办理。"}
 {"question": "航空公司 行李", "context": "国内航程 国际或地区航程 *此行李运输规则于2020年12月8日（以系统销售日期为准）起实施。 （1）韩国与中国境内（不含港澳台地区）双向之间的品牌运价产品的免费托运行李额 （2）使用非上述行程的其他品牌运价产品或无品牌运价产品的免费托运行李额"}
 ```
+
+#### augmentation
+
+- multi workers code seems have some problems currently(time out issue), and need to be fixed.
+
+- need more precise processing and prompts.
+
+### advanced
+
+For `air_travel_combined.json`, it has 2814(about 3k) rows, if we want to get 10k dataset, all we need to do is to let the LLM generate 4 related data(just logically tear the seed data apart) from an observation.
+
+The Chinese characters counting info is shown below:
+
+![](./imgs/air_combined_context_count.png)
 
 
 ## Concerned
