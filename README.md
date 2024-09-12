@@ -4,27 +4,38 @@ Collect, filter, and generate data from open-source transportation dataset
 
 ## change log
 
+[2024/9/12] add transGPT dataset
+
 [2024/9/11] support data augmentation on air travel dataset
 
-## Air travel
 
 
-### info
+## Info
+
+- Air travel
 
 [Reference](https://aistudio.baidu.com/datasetdetail/149933)
 
-
-> 需要注意：其中有部分答案为空的数据可当做负例进行使用。
-
-
 Refer to the data processing [code](https://aistudio.baidu.com/projectdetail/4388971?channelType=0&channel=0), we combine training and validation set together.
 
+- TransGPT
+
+[Reference](https://github.com/DUOMO/TransGPT)
+
+Dataset for finetuning could be found at [here](https://huggingface.co/datasets/DUOMO-Lab/TransGPT-sft/blob/main/TransGPT-sft.json). This dataset isn't formatted well as `json`, we need to preprocess first. Here I transformed it into alpaca format.
+
+
 ### how to use
+
+- air travel
 
 In `air_travel` folder, run code listed in `gen_air_travel.sh` to generate data from scratch.
 
 If you have generated `air_travel_combined.json` file already, you can try to generate augmented dataset. Just run code listed in `gen_augmented_air.sh`.
 
+- transGPT
+
+If you download the dataset from the source of transGPT, you need to make sure you set the proper file path for code `json_formatter.py` and then run it in `transGPT` folder.
 
 ### issues
 
