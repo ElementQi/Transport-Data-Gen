@@ -3,6 +3,7 @@ from tqdm import tqdm
 from openai import OpenAI
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import argparse
+from augment_utils import default, evolution
 
 
 def parse_args():
@@ -19,72 +20,20 @@ def parse_args():
 
     # debug only: set to 1 in production
     parser.add_argument('--percentage_of_data', type=float, default=0.01, help='Percentage of data to use from the input file.')
-    
+    parser.add_argument('--method', type=str, default="default", help='default method generating')
+
     return parser.parse_args()
 
-def generate_new_instructions(entry, idx, client):
-    new_entries = []
-    instruction = entry['instruction']
-    output = entry['output']
-    
-    system_prompt = """
-    你是一个有帮助的助手。你的任务是基于给定的输入问题和背景，生成 4 个新的问题和相应的背景，输出必须为 JSON 格式，格式如下：
-    [
-      {
-        "instruction": "生成的相关问题1",
-        "output": "生成的相关背景1"
-      },
-      {
-        "instruction": "生成的相关问题2",
-        "output": "生成的相关背景2"
-      },
-      {
-        "instruction": "生成的相关问题3",
-        "output": "生成的相关背景3"
-      },
-      {
-        "instruction": "生成的相关问题4",
-        "output": "生成的相关背景4"
-      }
-    ]
-    你应该根据背景的内容生成问题，如果背景过长，可以自行分割并生成问题和相应的背景。
-    """
-
-    prompt = f"""
-    给定以下问题和背景：
-    问题：{instruction}
-    背景：{output}
-    
-    请根据内容生成 4 个相关的新的问题和背景，确保每个问题与背景内容高度相关，且避免重复。
-    输出必须为 JSON 格式，不要是 markdown 格式，包含 4 个新的 instruction 和 output。
-    """
-
-    try:
-        response = client.chat.completions.create(
-            model="Qwen2-72B-Instruct-GPTQ-Int8",
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": prompt}
-            ],
-            response_format={ "type": "json_object" }
-        )
-
-        json_response = json.loads(response.choices[0].message.content)
-
-        # make sure as expected(4 new instruction-output pairs)
-        if isinstance(json_response, list) and len(json_response) >= 4:
-            new_entries.extend(json_response)
-        else:
-            print(f"Unexpected format at index {idx}: {json_response}")
-
-    except Exception as e:
-        print(f"Error generating entry {idx}: {str(e)}")
-    
-    return new_entries
 
 
 def main():
     args = parse_args()
+    # use the corresponding method
+    try:
+        generate_new_instructions = eval(args.method)
+    except Exception as e:
+        print(f"Error when loading method {str(e)}")
+    
     client = OpenAI(api_key=args.api_key, base_url=args.base_url)
 
     with open(args.input_file, 'r', encoding='utf-8') as f:

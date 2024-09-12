@@ -4,7 +4,7 @@ Collect, filter, and generate data from open-source transportation dataset
 
 ## change log
 
-[2024/9/12] add transGPT dataset
+[2024/9/12] add transGPT dataset; add evolution method for generating
 
 [2024/9/11] support data augmentation on air travel dataset
 
@@ -30,6 +30,8 @@ Dataset for finetuning could be found at [here](https://huggingface.co/datasets/
 - air travel
 
 In `air_travel` folder, run code listed in `gen_air_travel.sh` to generate data from scratch.
+
+You can use default method or evolution method with breadth to do generation.
 
 If you have generated `air_travel_combined.json` file already, you can try to generate augmented dataset. Just run code listed in `gen_augmented_air.sh`.
 
