@@ -4,6 +4,8 @@ Collect, filter, and generate data from open-source transportation dataset
 
 ## change log
 
+[2024/9/15] more modular in `src` folder, you can add your own prompts in `src/template.py`
+
 [2024/9/12] add transGPT dataset; add evolution method for generating
 
 [2024/9/11] support data augmentation on air travel dataset
@@ -38,6 +40,10 @@ If you have generated `air_travel_combined.json` file already, you can try to ge
 - transGPT
 
 If you download the dataset from the source of transGPT, you need to make sure you set the proper file path for code `json_formatter.py` and then run it in `transGPT` folder.
+
+- general
+
+check more info about args in `src/datagen.py`, there are demo scripts listed in `examples/air_gen.sh`
 
 ### issues
 
