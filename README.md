@@ -4,6 +4,8 @@ Collect, filter, and generate data from open-source transportation dataset
 
 ## change log
 
+[2024/9/16] air dataset generated with `gpt-4o-mini` from not combined data with 17185 rows with `evolution` template was stored in `saves`
+
 [2024/9/15] more modular in `src` folder, you can add your own prompts in `src/template.py`
 
 [2024/9/12] add transGPT dataset; add evolution method for generating
