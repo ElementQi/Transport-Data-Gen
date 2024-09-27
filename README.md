@@ -4,6 +4,8 @@ Collect, filter, and generate data from open-source transportation dataset
 
 ## change log
 
+[2024/9/27] add some generated QA data in `saves`
+
 [2024/9/26] could generate QA pairs from raw air travel title-content dataset
 
 [2024/9/16] air dataset generated with `gpt-4o-mini` from not combined data with 17185 rows with `evolution` template was stored in `saves`
