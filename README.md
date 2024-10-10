@@ -44,6 +44,12 @@ Dataset for finetuning could be found at [here](https://huggingface.co/datasets/
 
   - QA data generated from LLM
 
+    make sure you have installed [this repo](https://github.com/ElementQi/chroma-langchain) using:
+
+    ```shell
+    pip install -e git+https://github.com/ElementQi/chroma-langchain.git#egg=chroma-langchain
+    ```
+
     Firstly, generate little chunks from big content, you can modify and use code `chunk_content_multithread.py` in `chunk_gen` folder to generate chunked title-content pairs through a embedding model(you can set any LangChain Embeddings).
 
     Then, you can rigister or use the `question_answer_gen` template in `src/template.py` to generate QA pairs using code in `examples/qa_gen.sh`. Make sure you are under the root directory.
